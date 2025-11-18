@@ -26,13 +26,11 @@ def test_create_calculation_add():
 def test_create_calculation_division_by_zero_fails():
     payload = {"type": "div", "a": 2, "b": 0}
     resp = client.post("/calculations/", json=payload)
-    # Either Pydantic validation (422) or custom 400; accept both
     assert resp.status_code in (400, 422)
 
 def test_invalid_type_fails():
     payload = {"type": "pow", "a": 2, "b": 3}
     resp = client.post("/calculations/", json=payload)
-    # Enum validation fails at Pydantic level -> 422
     assert resp.status_code == 422
 
 def test_read_calculation_by_id():
